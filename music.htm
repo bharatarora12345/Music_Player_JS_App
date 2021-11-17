@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <title>Music Player App</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div class="main_div">
+        <div class="music_container">
+            <h2 id="title">TERE NAAM</h2>
+            <h3 id="artist">Vickey Singh</h3>
+            <div class="img_container">
+                <img src="images/tere-naam.jpg" alt="">
+            </div>
+            <audio src="music/tere-naam.mp3"></audio>
+
+            <!-- controls -->
+            <div class="music_controls">
+                <i class="fas fa-backward" id="prev" title="Previous"></i>
+                <i class="fas fa-play main_button" id="play" title="Play"></i>
+                <i class="fas fa-forward" id="next" title="Next"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector('audio');
+        const img = document.querySelector('img');
+        const play = document.getElementById("play");
+        const artist = document.getElementById("artist");
+        const title = document.getElementById("title");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+
+        const songs = [{
+            name: "tere-naam",
+            title: "Tere naam",
+            artist: "Vickey Singh",
+        }, {
+            name: "udd-ja-kaale-kanwan",
+            title: "udd ja kaale kanwan",
+            artist: "vickey singh",
+        }, {
+            name: "jaane-kyon-log-mohabbat-kiya",
+            title: "jaane kyon log mohabbat kiya",
+            artist: "vickey singh",
+        }, {
+            name: "kya-mujhe-pyaar-hai",
+            title: "kya mujhe pyaar hai",
+            artist: "Vickey Singh",
+        }, {
+            name: "do-dil-mil-rahe-hai",
+            title: "do dil mil rahe hai",
+            artist: "Kumar Sanu",
+        }, {
+            name: "dil-ko-karaar-aaya",
+            title: "dil ko karaar aaya",
+            artist: "Yasser Desai, Neha Kakkar",
+        }, ]
+
+        let isPlaying = false;
+        const playMusic = () => {
+            music.play();
+            play.classList.replace('fa-play', 'fa-pause');
+            img.classList.add("anime");
+            isPlaying = true;
+        };
+
+        // for pause function
+        const pauseMusic = () => {
+            music.pause();
+            play.classList.replace('fa-pause', 'fa-play');
+            img.classList.remove("anime");
+            isPlaying = false;
+        };
+
+        play.addEventListener('click', () => {
+            if (isPlaying) {
+                pauseMusic();
+            } else {
+                playMusic();
+            }
+        })
+
+        // changing the music data
+
+        const loadSong = (songs) => {
+            title.textContent = songs.title;
+            artist.textContent = songs.artist;
+            music.src = "music/" + songs.name + ".mp3"
+            img.src = "images/" + songs.name + ".jpg";
+        };
+
+        songIndex = 0;
+        const nextSong = () => {
+            songIndex = (songIndex + 1) % songs.length;
+            loadSong(songs[songIndex]);
+            if (!isPlaying) {
+                pauseMusic();
+            } else {
+                playMusic();
+            }
+        }
+
+        const prevSong = () => {
+            songIndex = (songIndex - 1) % songs.length;
+            loadSong(songs[songIndex]);
+            if (!isPlaying) {
+                pauseMusic();
+            } else {
+                playMusic();
+            }
+        }
+
+        next.addEventListener("click", nextSong);
+        prev.addEventListener("click", prevSong);
+    </script>
+</body>
+
+</html>
